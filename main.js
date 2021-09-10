@@ -1,15 +1,15 @@
 var lastPosX;
 var lastPosY;
 
-let backgroundColor = 0;
-let penColor = 200;
+let backgroundColor = 230;
+let penColor = 20;
 
 //Used to tell if the user is drawing or not, if not, then reset that last point so it doesnt draw a line in a random direction
 var drawing;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(0);
+  createCanvas(windowWidth - 10, windowHeight - 200);
+  background(backgroundColor);
   
   drawing = false;
 }
@@ -48,5 +48,6 @@ function mouseReleased(){
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth - 10 , windowHeight - 200);
+  background(backgroundColor);
 }
