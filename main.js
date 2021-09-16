@@ -16,7 +16,8 @@ function setup() {
 
 function draw() {
   if (mouseIsPressed && drawing == true){
-    let strokeColor = 0;
+    //Is always erasing
+    let strokeColor = backgroundColor;
     if (mouseButton === LEFT){
       strokeColor = penColor
     }
