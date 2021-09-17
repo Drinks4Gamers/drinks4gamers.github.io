@@ -62,11 +62,22 @@ let myp5 = new p5(s);
 
 //Toolbar
 const t = (sketch) => {
+  let getColor;
+  let colorWheel;
+
+  sketch.preload = () => {
+    colorWheel = sketch.loadImage("resources/wheel.png");
+  }
+
   sketch.setup = () => {
     let tlb = sketch.createCanvas(sketch.windowWidth - 20, sketch.windowHeight - (sketch.windowHeight - 190));
 
     tlb.position(8, sketch.windowHeight - 190)
     sketch.background(120);
   };
+
+  sketch.draw = () => {
+    sketch.image(colorWheel, 0, 0)
+  }
 }
 let toolbar = new p5(t);
