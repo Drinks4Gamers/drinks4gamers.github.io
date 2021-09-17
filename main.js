@@ -1,55 +1,59 @@
-var lastPosX;
-var lastPosY;
+const s = (sketch) => {
 
-let backgroundColor = 230;
-let penColor = 20;
-let penSize = 20;
+  //Used to draw lines between dots
+  var lastPosX;
+  var lastPosY;
 
-//Used to tell if the user is drawing or not, if not, then reset that last point so it doesnt draw a line in a random direction
-var drawing;
+  let backgroundColor = 230;
+  let penColor = 20;
+  let penSize = 20;
 
-function setup() {
-  createCanvas(windowWidth - 10, windowHeight - 200);
-  background(backgroundColor);
+  //Used to tell if the user is drawing or not, if not, then reset that last point so it doesnt draw a line in a random direction
+  var drawing;
 
-  drawing = false;
-}
+  sketch.setup = () => {
+    sketch.createCanvas(sketch.windowWidth - 10, sketch.windowHeight - 200);
+    sketch.background(backgroundColor);
 
-function draw() {
-  if (mouseIsPressed && drawing == true) {
-    //Is always erasing
-    let strokeColor = backgroundColor;
-    if (mouseButton === LEFT) {
-      strokeColor = penColor
+    drawing = false;
+  };
+
+  sketch.draw = () => {
+    if (sketch.mouseIsPressed && drawing == true) {
+      //using backgroundColor makes it look like its erasing
+      let strokeColor = backgroundColor;
+      if (sketch.mouseButton === sketch.LEFT) {
+        strokeColor = penColor
+      }
+      sketch.strokeWeight(penSize);
+      sketch.stroke(strokeColor);
+      sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
+
+      sketch.noStroke();
+      sketch.fill(strokeColor);
+      sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
+
+      lastPosX = sketch.mouseX;
+      lastPosY = sketch.mouseY;
+
+      //Script ends here if you are drawing
+      return;
     }
-    strokeWeight(penSize);
-    stroke(strokeColor);
-    line(mouseX, mouseY, lastPosX, lastPosY);
+    if (sketch.mouseIsPressed && drawing == false) {
+      drawing = true;
 
-    noStroke();
-    fill(strokeColor);
-    ellipse(mouseX, mouseY, penSize, penSize)
+      lastPosX = sketch.mouseX;
+      lastPosY = sketch.mouseY;
+    }
+  };
 
-    lastPosX = mouseX;
-    lastPosY = mouseY;
-
-    //Script ends here if you are drawing
-    return;
+  sketch.mouseReleased = () => {
+    drawing = false;
   }
-  if (mouseIsPressed && drawing == false) {
-    drawing = true;
 
-    lastPosX = mouseX;
-    lastPosY = mouseY;
+  sketch.windowResized = () => {
+    sketch.resizeCanvas(sketch.windowWidth - 10, sketch.windowHeight - 200);
+    sketch.background(backgroundColor);
   }
-}
-
-
-function mouseReleased() {
-  drawing = false;
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth - 10, windowHeight - 200);
-  background(backgroundColor);
-}
+};
+let myp5 = new p5(s);
