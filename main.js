@@ -1,18 +1,20 @@
+//Variables
+let backgroundColor = 230;
+let penColor = 20;
+let penSize = 20;
+
+//Canvas
 const s = (sketch) => {
 
   //Used to draw lines between dots
   var lastPosX;
   var lastPosY;
 
-  let backgroundColor = 230;
-  let penColor = 20;
-  let penSize = 20;
-
   //Used to tell if the user is drawing or not, if not, then reset that last point so it doesnt draw a line in a random direction
   var drawing;
 
   sketch.setup = () => {
-    sketch.createCanvas(sketch.windowWidth - 10, sketch.windowHeight - 200);
+    let canv = sketch.createCanvas(sketch.windowWidth - 20, sketch.windowHeight - 200);
     sketch.background(backgroundColor);
 
     drawing = false;
@@ -57,3 +59,14 @@ const s = (sketch) => {
   }
 };
 let myp5 = new p5(s);
+
+//Toolbar
+const t = (sketch) => {
+  sketch.setup = () => {
+    let tlb = sketch.createCanvas(sketch.windowWidth - 20, sketch.windowHeight - (sketch.windowHeight - 190));
+
+    tlb.position(8, sketch.windowHeight - 190)
+    sketch.background(120);
+  };
+}
+let toolbar = new p5(t);
