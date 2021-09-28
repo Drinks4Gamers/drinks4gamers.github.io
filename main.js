@@ -1,6 +1,6 @@
 //Variables
 let backgroundColor = 230;
-let penColor = 20;
+let getColor = 20;
 let penSize = 20;
 
 //Canvas
@@ -23,16 +23,32 @@ const s = (sketch) => {
   sketch.draw = () => {
     if (sketch.mouseIsPressed && drawing == true) {
       //using backgroundColor makes it look like its erasing
-      let strokeColor = backgroundColor;
       if (sketch.mouseButton === sketch.LEFT) {
-        strokeColor = penColor
+        strokeColor = getColor;
+      }
+      else {
+        strokeColor = backgroundColor;
+        
+        sketch.strokeWeight(penSize);
+        sketch.stroke(backgrounColor);
+        sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
+
+        sketch.noStroke();
+        sketch.fill(strokeColor[0], strokeColor[1], strokeColor[2]);
+        sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
+
+        lastPosX = sketch.mouseX;
+        lastPosY = sketch.mouseY;
+
+        //Script ends here if you are drawing
+        return;
       }
       sketch.strokeWeight(penSize);
-      sketch.stroke(strokeColor);
+      sketch.stroke(strokeColor[0], strokeColor[1], strokeColor[2]);
       sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
 
       sketch.noStroke();
-      sketch.fill(strokeColor);
+      sketch.fill(strokeColor[0], strokeColor[1], strokeColor[2]);
       sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
 
       lastPosX = sketch.mouseX;
@@ -50,7 +66,7 @@ const s = (sketch) => {
   };
 
   sketch.mouseReleased = () => {
-    drawing = false;
+    drawing = false
   }
 
   sketch.windowResized = () => {
@@ -62,22 +78,35 @@ let myp5 = new p5(s);
 
 //Toolbar
 const t = (sketch) => {
-  let getColor;
   let colorWheel;
 
+  let toolbarHeight = sketch.windowHeight - (sketch.windowHeight - 190)
   sketch.preload = () => {
-    colorWheel = sketch.loadImage("resources/wheel.png");
+    colorWheel = sketch.loadImage("colorwheel.png");
   }
 
   sketch.setup = () => {
-    let tlb = sketch.createCanvas(sketch.windowWidth - 20, sketch.windowHeight - (sketch.windowHeight - 190));
+    let tlb = sketch.createCanvas(sketch.windowWidth - 20, toolbarHeight);
 
     tlb.position(8, sketch.windowHeight - 190)
     sketch.background(120);
+
+    sketch.push();
+    sketch.image(colorWheel, 0, 0, toolbarHeight, toolbarHeight);
   };
 
   sketch.draw = () => {
-    sketch.image(colorWheel, 0, 0)
+    sketch.push();
+    sketch.stroke(getColor[0], getColor[1], getColor[2]);
+    sketch.fill(getColor[0], getColor[1], getColor[2], 100);
+    sketch.ellipse(sketch.width * 0.5, sketch.height * 0.5, 133, 133);
+    sketch.pop();
+  }
+  
+  sketch.mouseClicked = () => {
+    sketch.push();
+    sketch.image(colorWheel, 0, 0, toolbarHeight, toolbarHeight);
+    getColor = colorWheel.get(sketch.mouseX, sketch.mouseY);
   }
 }
 let toolbar = new p5(t);
