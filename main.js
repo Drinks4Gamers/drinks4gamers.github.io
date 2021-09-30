@@ -26,15 +26,13 @@ const s = (sketch) => {
       if (sketch.mouseButton === sketch.LEFT) {
         strokeColor = getColor;
       }
-      else {
-        strokeColor = backgroundColor;
-        
+      else {      
         sketch.strokeWeight(penSize);
-        sketch.stroke(backgrounColor);
+        sketch.stroke(backgroundColor);
         sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
 
         sketch.noStroke();
-        sketch.fill(strokeColor[0], strokeColor[1], strokeColor[2]);
+        sketch.fill(backgroundColor);
         sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
 
         lastPosX = sketch.mouseX;
@@ -44,11 +42,13 @@ const s = (sketch) => {
         return;
       }
       sketch.strokeWeight(penSize);
-      sketch.stroke(strokeColor[0], strokeColor[1], strokeColor[2]);
+      sketch.stroke(strokeColor);
       sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
 
+      //strokeColor[0], strokeColor[1], strokeColor[2]
+
       sketch.noStroke();
-      sketch.fill(strokeColor[0], strokeColor[1], strokeColor[2]);
+      sketch.fill(strokeColor);
       sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
 
       lastPosX = sketch.mouseX;
@@ -82,7 +82,7 @@ const t = (sketch) => {
 
   let toolbarHeight = sketch.windowHeight - (sketch.windowHeight - 190)
   sketch.preload = () => {
-    colorWheel = sketch.loadImage("colorwheel.png");
+    colorWheel = sketch.loadImage("resources/wheel.png");
   }
 
   sketch.setup = () => {
