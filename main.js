@@ -1,6 +1,6 @@
 //Variables
 let backgroundColor = 230;
-let getColor = 20;
+let getColor = [0,0,0]
 let penSize = 20;
 
 //Canvas
@@ -24,31 +24,17 @@ const s = (sketch) => {
     if (sketch.mouseIsPressed && drawing == true) {
       //using backgroundColor makes it look like its erasing
       if (sketch.mouseButton === sketch.LEFT) {
-        strokeColor = getColor;
-      }
-      else {
-        strokeColor = backgroundColor;
         
-        sketch.strokeWeight(penSize);
-        sketch.stroke(backgrounColor);
-        sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
-
-        sketch.noStroke();
-        sketch.fill(strokeColor[0], strokeColor[1], strokeColor[2]);
-        sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
-
-        lastPosX = sketch.mouseX;
-        lastPosY = sketch.mouseY;
-
-        //Script ends here if you are drawing
-        return;
-      }
+        //Line
       sketch.strokeWeight(penSize);
-      sketch.stroke(strokeColor[0], strokeColor[1], strokeColor[2]);
+      sketch.print(getColor[0], getColor[1], getColor[2])
+      sketch.stroke(getColor[0], getColor[1], getColor[2]);
       sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
-
+      
+      //Circle
       sketch.noStroke();
-      sketch.fill(strokeColor[0], strokeColor[1], strokeColor[2]);
+      sketch.print(getColor[0], getColor[1], getColor[2])
+      sketch.fill(getColor[0], getColor[1], getColor[2]);
       sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
 
       lastPosX = sketch.mouseX;
@@ -56,6 +42,23 @@ const s = (sketch) => {
 
       //Script ends here if you are drawing
       return;
+      }
+      else {
+        sketch.strokeWeight(penSize);
+      sketch.stroke(backgroundColor);
+      sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
+      
+      //Circle
+      sketch.noStroke();
+      sketch.fill(backgroundColor);
+      sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
+
+      lastPosX = sketch.mouseX;
+      lastPosY = sketch.mouseY;
+
+      //Script ends here if you are drawing
+      return;
+      }
     }
     if (sketch.mouseIsPressed && drawing == false) {
       drawing = true;
@@ -82,7 +85,7 @@ const t = (sketch) => {
 
   let toolbarHeight = sketch.windowHeight - (sketch.windowHeight - 190)
   sketch.preload = () => {
-    colorWheel = sketch.loadImage("colorwheel.png");
+    colorWheel = sketch.loadImage("resources\wheel.png");
   }
 
   sketch.setup = () => {
@@ -104,9 +107,11 @@ const t = (sketch) => {
   }
   
   sketch.mouseClicked = () => {
-    sketch.push();
-    sketch.image(colorWheel, 0, 0, toolbarHeight, toolbarHeight);
-    getColor = colorWheel.get(sketch.mouseX, sketch.mouseY);
+    if (sketch.mouseY < toolbarHeight){
+      sketch.push();
+      sketch.image(colorWheel, 0, 0, toolbarHeight, toolbarHeight);
+      getColor = colorWheel.get(sketch.mouseX, sketch.mouseY);
+    }
   }
 }
 let toolbar = new p5(t);
