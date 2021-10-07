@@ -3,6 +3,7 @@
 echo Pushing to github master branch...
 echo What comment would you like with this update?
 read gitnote
+
 git status
 git add -A
 git commit -a -m "$gitnote"
