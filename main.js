@@ -85,7 +85,7 @@ const t = (sketch) => {
 
   let toolbarHeight = sketch.windowHeight - (sketch.windowHeight - 190)
   sketch.preload = () => {
-    colorWheel = sketch.loadImage("resources\wheel.png");
+    colorWheel = sketch.loadImage("resources/wheel.png");
   }
 
   sketch.setup = () => {
