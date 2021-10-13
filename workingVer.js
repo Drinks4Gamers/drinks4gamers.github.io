@@ -1,6 +1,6 @@
 //Variables
 let backgroundColor = 230;
-let getColor = [0,0,0]
+let getColor = [1,1,1]
 let penSize = 20;
 
 //Canvas
@@ -16,7 +16,7 @@ const s = (sketch) => {
   sketch.setup = () => {
     let canv = sketch.createCanvas(sketch.windowWidth - 20, sketch.windowHeight - 200);
     sketch.background(backgroundColor);
-
+    
     drawing = false;
   };
 
@@ -25,7 +25,7 @@ const s = (sketch) => {
       //using backgroundColor makes it look like its erasing
       if (sketch.mouseButton === sketch.LEFT) {
         
-        //Line
+      //Line
       sketch.strokeWeight(penSize);
       sketch.print(getColor[0], getColor[1], getColor[2])
       sketch.stroke(getColor[0], getColor[1], getColor[2]);
@@ -45,18 +45,18 @@ const s = (sketch) => {
       }
       else {
         sketch.strokeWeight(penSize);
-      sketch.stroke(backgroundColor);
-      sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
+        sketch.stroke(backgroundColor);
+        sketch.line(sketch.mouseX, sketch.mouseY, lastPosX, lastPosY);
       
-      //Circle
-      sketch.noStroke();
-      sketch.fill(backgroundColor);
-      sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
+        //Circle
+        sketch.noStroke();
+        sketch.fill(backgroundColor);
+        sketch.ellipse(sketch.mouseX, sketch.mouseY, penSize, penSize)
 
-      lastPosX = sketch.mouseX;
-      lastPosY = sketch.mouseY;
+        lastPosX = sketch.mouseX;
+        lastPosY = sketch.mouseY;
 
-      //Script ends here if you are drawing
+        //Script ends here if you are drawing
       return;
       }
     }
@@ -85,7 +85,7 @@ const t = (sketch) => {
 
   let toolbarHeight = sketch.windowHeight - (sketch.windowHeight - 190)
   sketch.preload = () => {
-    colorWheel = sketch.loadImage("resources\wheel.png");
+    colorWheel = sketch.loadImage("resources/wheel.png");
   }
 
   sketch.setup = () => {
@@ -110,8 +110,18 @@ const t = (sketch) => {
     if (sketch.mouseY < toolbarHeight){
       sketch.push();
       sketch.image(colorWheel, 0, 0, toolbarHeight, toolbarHeight);
+      var oldColor = getColor;
       getColor = colorWheel.get(sketch.mouseX, sketch.mouseY);
+      if (getColor[0] + getColor[1] + getColor[2] == 0){
+        getColor = oldColor;
+      }
     }
+  }
+  sketch.windowResized = () => {
+    sketch.resizeCanvas(sketch.windowWidth - 20, toolbarHeight);
+    sketch.background(120);
+    sketch.push();
+    sketch.image(colorWheel, 0, 0, toolbarHeight, toolbarHeight);
   }
 }
 let toolbar = new p5(t);

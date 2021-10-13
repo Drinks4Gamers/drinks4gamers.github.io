@@ -82,7 +82,8 @@ let myp5 = new p5(s);
 //Toolbar
 const t = (sketch) => {
   let colorWheel;
-
+  let c1,c2;
+  
   let toolbarHeight = sketch.windowHeight - (sketch.windowHeight - 190)
   sketch.preload = () => {
     colorWheel = sketch.loadImage("resources/wheel.png");
@@ -96,6 +97,10 @@ const t = (sketch) => {
 
     sketch.push();
     sketch.image(colorWheel, 0, 0, toolbarHeight, toolbarHeight);
+    
+    // Define colors
+    c1 = sketch.color("black");
+    c2 = sketch.color("black");
   };
 
   sketch.draw = () => {
@@ -104,24 +109,32 @@ const t = (sketch) => {
     sketch.fill(getColor[0], getColor[1], getColor[2], 100);
     sketch.ellipse(sketch.width * 0.5, sketch.height * 0.5, 133, 133);
     sketch.pop();
+    
+    c1 = sketch.color(getColor)
+    setGradient(sketch.width * .25, sketch.height * .01, 50, 250, c1, c2);
   }
+  
+  function setGradient(x, y, w, h, c1, c2) {
+  sketch.noFill();
+
+    for (let i = y; i <= y + h; i++) {
+      let inter = sketch.map(i, y, y + h, 0, 1);
+      let c = sketch.lerpColor(c1, c2, inter);
+      sketch.stroke(c);
+      mainLine = sketch.line(x, i, x + w, i);
+    }
+}
   
   sketch.mouseClicked = () => {
     if (sketch.mouseY < toolbarHeight){
       sketch.push();
       sketch.image(colorWheel, 0, 0, toolbarHeight, toolbarHeight);
       var oldColor = getColor;
-      getColor = colorWheel.get(sketch.mouseX, sketch.mouseY);
-      if (getColor[0] + getColor[1] + getColor[2] == 0){
+      getColor = mainLine.get(sketch.mouseX, sketch.mouseY);
+      if (getColor[0] + getColor[1] + getColor[2] == 0 || getColor[0] + getColor[1] + getColor[2] == 360){
         getColor = oldColor;
       }
     }
-  }
-  sketch.windowResized = () => {
-    sketch.resizeCanvas(sketch.windowWidth - 20, toolbarHeight);
-    sketch.background(120);
-    sketch.push();
-    sketch.image(colorWheel, 0, 0, toolbarHeight, toolbarHeight);
   }
 }
 let toolbar = new p5(t);
