@@ -1,7 +1,7 @@
 //Variables
 let backgroundColor = 230;
 let getColor = [1,1,1]
-let penSize = 20;
+let penSize = 50;
 
 //Canvas
 const s = (sketch) => {
@@ -14,7 +14,7 @@ const s = (sketch) => {
   var drawing;
 
   sketch.setup = () => {
-    let canv = sketch.createCanvas(sketch.windowWidth - 20, sketch.windowHeight - 200);
+    let canv = sketch.createCanvas(sketch.windowWidth - 20, sketch.windowHeight - penSize);
     sketch.background(backgroundColor);
 
     drawing = false;
