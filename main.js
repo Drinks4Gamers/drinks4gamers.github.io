@@ -28,7 +28,7 @@ function setup() {
 }
 
 function draw() {
-  textAlign(CENTER, screenTop);
+  textAlign(CENTER + 10, screenTop);
   textSize(100);
 }
 
